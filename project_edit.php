@@ -39,8 +39,8 @@ if ($project_user_id != $current_user_id){
   </br>
     <div class="col-md-8 col-md-offset-2">
       <div class="alert alert-danger">
-      <?php echo "Project User id: " . $project_user_id . "Current User Id: " . $current_user_id;?>
-      You can't edit this project. It's not yours. Shame on you for trying.
+      <?php echo "Current User Id: " . $current_user_id;?>
+      You can't edit this project. It does not belong to you. Shame on you for trying.
       </div>
     </div>
   </div>

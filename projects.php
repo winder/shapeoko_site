@@ -36,7 +36,10 @@ This file is used to show entire collection of project (gallery)
 
   <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
-      <img src="projects/images/thumb_<?php echo $id . "." . $image1;?>" alt="...">
+      <a href="project.php?id=<?php echo $id;?>">
+        <img src="projects/images/thumb_<?php echo $id . "." . $image1;?>" alt="...">
+      </a>
+      <!--<img src="projects/images/thumb_<?php echo $id . "." . $image1;?>" alt="...">-->
       <div class="caption">
         <h3><?php echo $title;?></h3>
         <h5><?php echo "by " . $username;?></h5>
