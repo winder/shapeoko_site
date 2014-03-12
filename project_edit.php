@@ -21,44 +21,27 @@ include 'connect.php';
       $description = $row['project_description'];
       $username = $row['project_user'];
       $project_user_id = $row['project_user_id'];
-      $instructions = $row['project_instructions'];
-      $image1 = $row['image1'];
-      $image2 = $row['image2'];
-      $image3 = $row['image3'];
-      $image4 = $row['image4'];
-      $image5 = $row['image5'];
       $topic = $row['project_topic_id'];
+      $ext = $row['image1'];
     }
 
 
 if ($project_user_id != $current_user_id){
-
-?>
-<div class="container">
-  <div class="row">
-  </br>
-    <div class="col-md-8 col-md-offset-2">
-      <div class="alert alert-danger">
-      <?php echo "Current User Id: " . $current_user_id;?>
-      You can't edit this project. It does not belong to you. Shame on you for trying.
-      </div>
-    </div>
-  </div>
-</div>
-<?php
-exit;
-}else{
+      echo '<div class="col-md-8 col-md-offset-2">';
+      echo '<div class="alert alert-info">You can\'t edit this project. It does not belong to you. Shame on you for trying.</div>';
+      echo '</div>';
+      exit;
+    }
 ?>
 
-
-
-
+<link rel="stylesheet" type="text/css" href="rte/prettify.css"></link>
+    <link rel="stylesheet" type="text/css" href="rte/bootstrap-wysihtml5.css"></link>
     <div class="container">
         <div class="row">
         
         </br><!--needs a little extra spacing...-->
           <div class="col-md-8">
-            <form role="form" action="../project_update.php" method="post" enctype="multipart/form-data">
+            <form role="form" action="../project_submit.php" method="post" enctype="multipart/form-data">
             
               <div class="form-group">
                 <div class="panel panel-primary">
@@ -73,20 +56,28 @@ exit;
               </div>
               
               <div class="form-group">
-                <label for="projectPicture">Image 1</label>
-                <input type="file" id="projectPicture" name="projectPicture">
-                <div class="well well-lg">
-                  <p class="help-block">(Chose your best picture!)</p>
+                <div class="row">
+                  <div class="col-md-2">
+                    <b>Current Image</b></br>
+                    <img src="projects/images/thumb_<?php echo $clean_pid . '.' . $ext;?>" height="80px"></img>
+                  </div>
+                  <div class="col-md-10">
+                    <label for="projectPicture">Select New Image</label>
+                    <input type="file" id="projectPicture" name="projectPicture">
+                  </div>
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="projectDescription">Description</label>
-                  <textarea 
-                    class="textarea"
-                    name="projectDescription"
-                    style="width: 100%; height: 100px"
-                  ><?php echo $description;?></textarea>
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Project Description</h3>
+                  </div>
+                
+                  <div class="panel-body">
+                    <textarea class="textarea" name="projectDescription" placeholder="Enter project description. It should be a few sentences" style="width: 100%; height: 200px;"></textarea>
+                  </div>
+                </div>
               </div>
 
               <div class="checkbox">
@@ -94,32 +85,7 @@ exit;
                   <input type="checkbox" name="usedMakercam"> Did you use MakerCAM?
                 </label>
               </div>
-              <!--
-                <div class="form-group">
-                  <label for="projectPicture2">Image 2</label>
-                  <input type="file" id="projectPicture2" name="projectPicture2">
-                </div>
-                <div class="form-group">
-                  <label for="projectPicture3">Image 3</label>
-                  <input type="file" id="projectPicture3" name="projectPicture3">
-                </div>
-                <div class="form-group">
-                  <label for="projectPicture4">Image 4</label>
-                  <input type="file" id="projectPicture4" name="projectPicture4">
-                </div>
-                <div class="form-group">
-                  <label for="projectPicture5">Image 5</label>
-                  <input type="file" id="projectPicture5" name="projectPicture5">
-                </div>
-              -->
-
-              <div class="form-group">
-                <label for="additionalInstructions">Additional Instructions</label>
-                  <textarea class="textarea2" name="additionalInstructions" style="width: 100%; height: 200px"><?php echo $instructions;?></textarea>
-              </div>
-
-              <button type="submit" class="btn btn-success">Submit</button>
-              <a class="btn btn-warning" href="project.php?id=<?php echo $clean_pid;?>">Cancel Edit and Go Back</a>
+              <button type="submit" class="btn btn-default">Submit</button>
             </form>
           </div><!--./md-8-->
          
@@ -144,10 +110,23 @@ exit;
         </div><!--./row-->
     </div><!--./container-->
 
+    <!--include all files required to produce rich text editor in both text area boxes-->
+    <!--This updated version with is compatible with bootstrap 3 found here: https://github.com/schnawel007/bootstrap3-wysihtml5 -->
+    <!--Found here: http://stackoverflow.com/questions/19665914/bootstrap-wysiwyg-textarea-editor-working-on-bootstrap-3 -->
+    <script src="rte/wysihtml5-0.3.0.js"></script>
+    <script src="rte/prettify.js"></script>
+    <script src="rte/bootstrap-wysihtml5.js"></script>
+
+    <script>
+      $('.textarea').wysihtml5({"image": false});
+      $('.textarea2').wysihtml5({"image": false});
+    </script>
+
+    <script type="text/javascript" charset="utf-8">
+      $(prettyPrint);
+    </script>
 
 
 </body>
 
 </html>
-
-<?php };?>
