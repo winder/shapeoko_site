@@ -9,7 +9,7 @@ echo '<div class="row"></br></br>';
 
     //get some info about the situation
     $current_user_id = $user->data['user_id'];
-    $clean_pid = (int) mysql_real_escape_string($_GET['id']);
+    $clean_pid = mysql_real_escape_string($_GET['id']);
 
 
     //Get the project's details so we can compare user IDs again.
@@ -35,7 +35,7 @@ echo '<div class="row"></br></br>';
 	    
 	    echo '<h1>Your Project has been deleted</h1>';
 	    echo "<h1>Unicorns across the universe just shed a tear.</h1>";
-	    echo 'actually, that was a joke. something is not working correctly here....your project is still alive.';
+	    if($result==false){echo 'actually, that was a joke. something is not working correctly here....your project is still alive.';}
 	    mysqli_close($con);
 		exit;
 

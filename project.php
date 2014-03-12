@@ -71,7 +71,7 @@ This file is used to show the details for a project
         <div class="row">
 
             <div class="col-md-6">
-                <img class="img-responsive" src="projects/images/picture_1_<?php echo $id . "." . $image1;?>">
+                <img class="img-responsive" src="projects/images/picture_1_<?php echo $clean_pid . "." . $image1;?>">
             </div>
 
             <div class="col-md-4">

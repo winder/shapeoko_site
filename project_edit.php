@@ -116,7 +116,8 @@ exit;
                   <textarea class="textarea2" name="additionalInstructions" style="width: 100%; height: 200px"><?php echo $instructions;?></textarea>
               </div>
 
-              <button type="submit" class="btn btn-default">Submit</button>
+              <button type="submit" class="btn btn-success">Submit</button>
+              <a class="btn btn-warning" href="project.php?id=<?php echo $clean_pid;?>">Cancel Edit and Go Back</a>
             </form>
           </div><!--./md-8-->
          

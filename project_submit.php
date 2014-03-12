@@ -30,7 +30,7 @@ if ($user->data['user_id'] == ANONYMOUS){
     /*---------------------------------------------------------------*/
     if(isset($_FILES['projectPicture'])){
         $info = pathinfo($_FILES['projectPicture']['name']);
-        $ext1 = $info['extension']; //get the extension of the file
+        $ext1 = strtolower($info['extension']); //get the extension of the file
         $size_check = $info['size'];
         echo $size_check;
         if($size_check >=1024){exit;}
