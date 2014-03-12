@@ -1,6 +1,7 @@
 <?php
 include 'mainheader.php';
 include 'connect.php';
+include 'parser.php';
 
 /***************************************************************
 This file is used to actually submit the project to the database
@@ -35,11 +36,6 @@ if ($user->data['user_id'] == ANONYMOUS){
         echo $size_check;
         if($size_check >=1024){exit;}
         $image1 = $ext1;
-        //hardcoded values as placeholders for future features
-        $image2 = 'jpg';
-        $image3 = 'jpg';
-        $image4 = 'jpg';
-        $image5 = 'jpg';
     }else{exit('You must include at least one image for your project. Click the back button to try again.');}
     
 
@@ -47,19 +43,16 @@ if ($user->data['user_id'] == ANONYMOUS){
         $title = mysql_real_escape_string($_POST['projectTitle']);
         $description = mysql_real_escape_string(nl2br(htmlspecialchars($_POST['projectDescription'])));
         $makercam = mysql_real_escape_string($_POST['usedMakercam']);
-        $instructions = mysql_real_escape_string(nl2br(htmlspecialchars($_POST['additionalInstructions'])));
 
-    //Create these variables for use when inserting record into the projects table
-    //eventually these will be filled in on the project_entry.php page.... for now we are hard coding them
-        $project_os = 1;                                  //is project open source?
-        $project_url="www.shapeoko.com";                  //what is the projects 'buy' URL?
+    //Create the user variables from phpbb3 for use when inserting record into the projects table
         $project_user = $user->data['username_clean'];    //get the username of the submitter
         $project_user_id = $user->data['user_id'];        //get the user id so we can do some cross referencing with the user table later
 
     //Build up the sql string to execute based on variables POSTED from submission
+    //see this page for SP info with OUT value - http://www.daniweb.com/web-development/php/threads/275508/need-code-example-for-stored-procedure-in-mysql-php
     //regarding submitting Rich Text: http://www.clonmelweb.net/tutorial_TinyMCE_2of2.php
-        $sql="INSERT INTO projects (project_user, project_user_id, project_title, project_description, image1, image2, image3, image4, image5, project_instructions, makercam, project_os, project_url)
-        VALUES('$project_user','$project_user_id','$title','$description', '$image1', '$image2', '$image3', '$image4', '$image5', '$instructions', '$makercam', '$project_os', '$project_url')";
+        $sql="INSERT INTO projects (project_user, project_user_id, project_title, project_description, image1, makercam)
+        VALUES('$project_user','$project_user_id','$title','$description', '$image1', '$makercam')";
 
     //Run the query
         $result = mysqli_query($con, $sql);
@@ -77,7 +70,9 @@ if ($user->data['user_id'] == ANONYMOUS){
 
 
     //Build up the description string to include image #1 in their auto forum post
-        $description = $description . " \n \n " . '[img]http://www.shapeoko.com/' . $thumbtarget . '[/img]';
+        $description = html_entity_decode($description);
+        $description = html2bb($description);
+        $description = $description . "\n\n" . '[img]http://www.shapeoko.com/' . $thumbtarget . '[/img]';
 
     //Variables to hold the parameters for phpbb3 function submit_post
          $title = utf8_normalize_nfc($title);
@@ -85,7 +80,8 @@ if ($user->data['user_id'] == ANONYMOUS){
          $poll = $uid = $bitfield = $options = '';
          generate_text_for_storage($title, $uid, $bitfield, $options, false, false, false);
          generate_text_for_storage($text, $uid, $bitfield, $options, true, true, true);
-    
+  
+
     //Build up data array with relevant data and parameter settings
          $data = array(
              'forum_id'       => 30,
@@ -261,6 +257,35 @@ if ($user->data['user_id'] == ANONYMOUS){
     return true;
   }
 
+
+function html_bbcode_format ($replace, $bbcode_uid) { 
+  $replace = str_replace(';;','',$replace);
+  $replace = str_replace('&quot;','"',$replace);
+  $replace = str_replace('&lt;','<',$replace);
+  $replace = str_replace('&gt;','>',$replace);
+  $replace = str_replace('<br />','',$replace);
+  $replace = preg_replace('</div>', '', $replace);
+  $replace = preg_replace('<div align="(.*?)">', '', $replace);
+  $replace = preg_replace('<img src="(.*?)"(.*?) />', '[img:'.$bbcode_uid.']$1[/img:'.$bbcode_uid.']', $replace);
+  $replace = preg_replace('<img(.*?)src="(.*?)">', '[img:'.$bbcode_uid.']$2[/img:'.$bbcode_uid.']', $replace);
+  $replace = preg_replace('/\<font size=\"([1-7])\"\>((\s|.)+?)\<\/font>/i', '[size=\\1:'.$bbcode_uid.']\\2[/size:'.$bbcode_uid.']', $replace);
+  $replace = preg_replace('/\<font color=\"(#[a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9])\"\>((\s|.)+?)\<\/font>/i', '[color=\\1:'.$bbcode_uid.']\\2[/color:'.$bbcode_uid.']', $replace);
+  $replace = preg_replace('/\<font color=\"([a-zA-Z]+)\]((\s|.)+?)\<\/font>/i', '[color=\\1:'.$bbcode_uid.']\\2[/color:'.$bbcode_uid.']', $replace);
+  $replace = preg_replace("/\<a href=\"((http|ftp|https|ftps|irc):\/\/[^<>\s]+?)\">((\s|.)+?)\<\/a\>/i","[url=\\1:'.$bbcode_uid.']\\3[/url:'.$bbcode_uid.']", $replace);
+  $replace = str_replace('<i>','[i:'.$bbcode_uid.']',$replace);
+  $replace = str_replace('</i>','[/i:'.$bbcode_uid.']',$replace);
+  $replace = str_replace('<b>','[b:'.$bbcode_uid.']',$replace);
+  $replace = str_replace('</b>','[/b:'.$bbcode_uid.']',$replace);
+  $replace = str_replace('<strong>','[b:'.$bbcode_uid.']',$replace);
+  $replace = str_replace('</strong>','[/b:'.$bbcode_uid.']',$replace);
+  $replace = str_replace('<u>','[u:'.$bbcode_uid.']',$replace);
+  $replace = str_replace('</u>','[/u:'.$bbcode_uid.']',$replace);
+  $replace = str_replace('<','',$replace);
+  $replace = str_replace('/>','',$replace);
+  $replace = str_replace('>','',$replace);
+  $replace = str_replace('&nbsp;',' ',$replace);
+  return $replace; 
+}
 
 
 

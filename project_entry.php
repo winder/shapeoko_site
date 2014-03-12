@@ -1,35 +1,20 @@
 <?php
-include 'mainheader.php';
+    include 'mainheader.php';
 
-/***************************************************************
-This file is used to enter details for a new project. These details
-are submitted to project_submit.php 
-***************************************************************/
-
+    /***************************************************************
+    This file is used to enter details for a new project. These details
+    are submitted to project_submit.php 
+    ***************************************************************/
+    if ($user->data['user_id'] == ANONYMOUS){
+      echo '<div class="col-md-8 col-md-offset-2">';
+      echo '<div class="alert alert-info">Already a Member? Use the Login form at the top of the page!</div>';
+      echo '<div class="alert alert-danger">Not a Member? Use the Register button at the top of the page to get started!</div>';
+      echo '</div>';
+      exit;
+    }
 ?>
-
-
-
-<?php
-if ($user->data['user_id'] == ANONYMOUS){
-?>
-<div class="container">
-  <div class="row">
-  </br>
-    <div class="col-md-8 col-md-offset-2">
-      <div class="alert alert-info">Already a Member? Use the Login form in the header!</div>
-      <div class="alert alert-danger">Not a Member? Use the Register button in the header to get started!</div>
-    </div>
-  </div>
-</div>
-<?php
-exit;
-}else{
-?>
-
-
-
-
+    <link rel="stylesheet" type="text/css" href="rte/prettify.css"></link>
+    <link rel="stylesheet" type="text/css" href="rte/bootstrap-wysihtml5.css"></link>
     <div class="container">
         <div class="row">
         
@@ -50,14 +35,23 @@ exit;
               </div>
               
               <div class="form-group">
-                <label for="projectPicture">Image 1</label>
-                <input type="file" id="projectPicture" name="projectPicture">
-                <p class="help-block">(Chose your best picture!)</p>
+                <div class="well">
+                  <label for="projectPicture">Image 1</label>
+                  <input type="file" id="projectPicture" name="projectPicture">
+                  <p class="help-block">(Chose your best picture!)</p>
+                </div>
               </div>
 
               <div class="form-group">
-                <label for="projectDescription">Description</label>
-                  <textarea class="textarea" name="projectDescription" placeholder="Enter project description. It should be a few sentences" style="width: 100%; height: 100px"></textarea>
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Project Description</h3>
+                  </div>
+                
+                  <div class="panel-body">
+                    <textarea class="textarea" name="projectDescription" placeholder="Enter project description. It should be a few sentences" style="width: 100%; height: 200px;"></textarea>
+                  </div>
+                </div>
               </div>
 
               <div class="checkbox">
@@ -65,30 +59,6 @@ exit;
                   <input type="checkbox" name="usedMakercam"> Did you use MakerCAM?
                 </label>
               </div>
-              <!--
-                <div class="form-group">
-                  <label for="projectPicture2">Image 2</label>
-                  <input type="file" id="projectPicture2" name="projectPicture2">
-                </div>
-                <div class="form-group">
-                  <label for="projectPicture3">Image 3</label>
-                  <input type="file" id="projectPicture3" name="projectPicture3">
-                </div>
-                <div class="form-group">
-                  <label for="projectPicture4">Image 4</label>
-                  <input type="file" id="projectPicture4" name="projectPicture4">
-                </div>
-                <div class="form-group">
-                  <label for="projectPicture5">Image 5</label>
-                  <input type="file" id="projectPicture5" name="projectPicture5">
-                </div>
-              -->
-
-              <div class="form-group">
-                <label for="additionalInstructions">Additional Instructions</label>
-                  <textarea class="textarea2" name="additionalInstructions" placeholder="Enter additional information or instructions about your project here" style="width: 100%; height: 200px"></textarea>
-              </div>
-
               <button type="submit" class="btn btn-default">Submit</button>
             </form>
           </div><!--./md-8-->
@@ -114,10 +84,23 @@ exit;
         </div><!--./row-->
     </div><!--./container-->
 
+    <!--include all files required to produce rich text editor in both text area boxes-->
+    <!--This updated version with is compatible with bootstrap 3 found here: https://github.com/schnawel007/bootstrap3-wysihtml5 -->
+    <!--Found here: http://stackoverflow.com/questions/19665914/bootstrap-wysiwyg-textarea-editor-working-on-bootstrap-3 -->
+    <script src="rte/wysihtml5-0.3.0.js"></script>
+    <script src="rte/prettify.js"></script>
+    <script src="rte/bootstrap-wysihtml5.js"></script>
+
+    <script>
+      $('.textarea').wysihtml5({"image": false});
+      $('.textarea2').wysihtml5({"image": false});
+    </script>
+
+    <script type="text/javascript" charset="utf-8">
+      $(prettyPrint);
+    </script>
 
 
 </body>
 
 </html>
-
-<?php };?>

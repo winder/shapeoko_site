@@ -75,7 +75,9 @@ exit;
               <div class="form-group">
                 <label for="projectPicture">Image 1</label>
                 <input type="file" id="projectPicture" name="projectPicture">
-                <p class="help-block">(Chose your best picture!)</p>
+                <div class="well well-lg">
+                  <p class="help-block">(Chose your best picture!)</p>
+                </div>
               </div>
 
               <div class="form-group">

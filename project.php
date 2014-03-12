@@ -52,17 +52,7 @@ This file is used to show the details for a project
             <div class="col-lg-12">
                 <h1 class="page-header"><?php echo $title;?>
                     <small>by <?php echo $username;?></small>
-
-                <?php
-                    //if the current user is the creator of the project, let them edit it.
-                    if($userid == $current_id){
-                ?>
-                        <a href="project_edit.php?id=<?php echo $clean_pid;?>"><button type="button" class="btn btn-info">edit</button></a>
-                        <a href="project_delete.php?id=<?php echo $clean_pid;?>" onclick="return confirm('Are you sure you want to delete this project? There is no way of getting it back...');"><button type="button" class="btn btn-danger">delete</button>
-                        </a>
-                <?php
-                    }else{echo '';}
-                ?>                
+                    <a class="btn btn-primary pull-right" href="http://www.shapeoko.com/forum/viewtopic.php?f=19&t=<?php echo $topic;?>">View on Forum</a>
                 </h1>
             </div>
 
@@ -74,75 +64,45 @@ This file is used to show the details for a project
                 <img class="img-responsive" src="projects/images/picture_1_<?php echo $clean_pid . "." . $image1;?>">
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <h3>Project Description</h3>
                 <p>
-                    <?php echo $description;?>
+                    <?php echo html_entity_decode($description);?>
                 </P>
-                <a href="http://www.shapeoko.com/forum/viewtopic.php?f=19&t=<?php echo $topic;?>">
-                <button class="button btn-default">More Details</button>
-                </a>
             </div>
 
         </div>
 
         <div class="row">
-        <!--
             <div class="col-lg-12">
-                <h3 class="page-header">More Images</h3>
+                <hr>
+                
+                <?php
+                    //if the current user is the creator of the project, let them edit it.
+                    if($userid == $current_id){
+                ?>
+                        <a href="project_edit.php?id=<?php echo $clean_pid;?>"><button type="button" class="btn btn-info"><i class="glyphicon glyphicon-pencil"></i> edit</button></a>
+                        <a href="project_delete.php?id=<?php echo $clean_pid;?>" onclick="return confirm('Are you sure you want to delete this project? There is no way of getting it back...');"><button type="button" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i> delete</button>
+                        </a>
+                <?php
+                    }else{echo '';}
+                ?>                 
             </div>
-
-            <div class="col-sm-3 col-xs-6">
-                <a href="#">
-                    <img class="img-responsive portfolio-item" src="projects/images/picture_2_<?php echo $id;?>.jpg">
-                </a>
-            </div>
-
-            <div class="col-sm-3 col-xs-6">
-                <a href="#">
-                    <img class="img-responsive portfolio-item" src="projects/images/picture_3_<?php echo $id;?>.jpg">
-                </a>
-            </div>
-
-            <div class="col-sm-3 col-xs-6">
-                <a href="#">
-                    <img class="img-responsive portfolio-item" src="projects/images/picture_4_<?php echo $id;?>.jpg">
-                </a>
-            </div>
-
-            <div class="col-sm-3 col-xs-6">
-                <a href="#">
-                    <img class="img-responsive portfolio-item" src="projects/images/picture_5_<?php echo $id;?>.jpg">
-                </a>
-            </div>
-        -->
         </div>
 
     </div><!-- /.container -->
 
     <div class="container">
-<div>
-    <hr>
-    <h3>Additional Instructions</h3>
-    <p><?php echo $instructions;?></p>
-</div>
-        <hr>
 
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Shapeoko 2014</p>
+                </br>
+                    <p><em>Copyright &copy; Shapeoko 2014</em></p>
                 </div>
             </div>
         </footer>
-
     </div><!-- /.container -->
-
-<!--this is to prevent us from accidentally deleting our project-->
-<script>
-
-
-</script>
 
 </body>
 

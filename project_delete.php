@@ -24,21 +24,10 @@ echo '<div class="row"></br></br>';
 	//goofy thing with calling stored procedures: once one is called, it closes the connection
 	//we need to reconnect to the DB so we can call the next SP
 	//thanks to this answer: http://www.php.net/manual/en/function.mysql-ping.php#68526
-	if (!mysql_ping ($con)) {
-	   mysql_close($con);
+	if (!mysqli_ping ($con)) {
+	   mysqli_close($con);
 	   include 'connect.php';
 	}
-
-
-	/*
-	$sql = "SELECT project_user_id, project_id FROM projects WHERE project_id = '$clean_pid'";
-	$get_details = mysqli_query($con, $sql);
-		while($row = mysqli_fetch_array($get_details)){
-		      $project_user_id = $row['project_user_id'];
-		      $project_id = $row['project_id'];
-		  }
-	*/
-
 
     if($current_user_id == $project_user_id){
 	    // debugging information
@@ -63,8 +52,6 @@ echo '<div class="row"></br></br>';
 		        else{
 		            echo 'cant delete file';
 		            print_r(error_get_last());
-		            // this gives me
-		            // unlink() function.unlink: No such file or directory
 		        }
 		    }
 		}
@@ -81,13 +68,10 @@ echo '<div class="row"></br></br>';
 		        else{
 		            echo 'cant delete file';
 		            print_r(error_get_last());
-		            // this gives me
-		            // unlink() function.unlink: No such file or directory
+
 		        }
 		    }
 		}
-
-
 	    
 	    echo '<h1>Your Project and all of it\'s related files have been deleted</h1>';
 	    echo "<h1>Unicorns across the universe just shed a tear.</h1>";
