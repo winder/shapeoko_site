@@ -31,7 +31,7 @@ body{
 			<div class="col-xs-4">
 				<h1>Cut<span class="glyphicon glyphicon-saved pull-right"></span></h1>
 				<img class="img-thumbnail thumbnail" src="images/ugs.png"></img>
-				<p><strong>Universal Gcode Sender Universal</strong> (UGS for short) is a Java based GRBL compatible cross platform G-Code sender. UGS is the interface between your computer and the arduino which controls the Shapeoko CNC machine.</p>
+				<p><strong>Universal Gcode Sender</strong> (UGS for short) is a Java based GRBL compatible cross platform G-Code sender. UGS is the interface between your computer and the arduino which controls the Shapeoko CNC machine.</p>
 				<a class="btn btn-primary btn-block" href="https://github.com/winder/Universal-G-Code-Sender" target="_blank">View on Github</a>
 			</div>
 		</div>
